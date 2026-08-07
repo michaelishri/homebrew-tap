@@ -24,12 +24,12 @@ class Cast < Formula
     # apple-metal 0.8.8 references two macOS 26-only sampler properties
     # without an SDK compile guard. Cast does not use its sampler API.
     resource("apple-metal").stage(buildpath/"vendor/apple-metal")
-    inreplace "vendor/apple-metal/swift-bridge/Sources/AppleMetalBridge/State.swift", <<~SWIFT, ""
-      if #available(macOS 26.0, *) {
-          descriptor.reductionMode = MTLSamplerReductionMode(rawValue: reductionMode) ?? MTLSamplerReductionMode(rawValue: 0)!
-          descriptor.lodBias = lodBias
-      }
-    SWIFT
+    apple_metal_state = "vendor/apple-metal/swift-bridge/Sources/AppleMetalBridge/State.swift"
+    reduction_mode = "descriptor.reductionMode = " \
+                     "MTLSamplerReductionMode(rawValue: reductionMode) ?? " \
+                     "MTLSamplerReductionMode(rawValue: 0)!"
+    inreplace apple_metal_state, reduction_mode, ""
+    inreplace apple_metal_state, "descriptor.lodBias = lodBias", ""
     File.open("Cargo.toml", "a") do |file|
       file.write <<~TOML
 
