@@ -16,6 +16,23 @@ class Cast < Formula
   depends_on macos: :ventura
 
   def install
+    # Cargo dependencies invoke SwiftPM from their build scripts. Disable its
+    # nested sandbox because Homebrew already runs the entire build sandboxed.
+    real_swift = Utils.safe_popen_read("xcrun", "--find", "swift").strip
+    swift_bin = buildpath/"homebrew-swift-bin"
+    swift_bin.mkpath
+    swift_wrapper = swift_bin/"swift"
+    swift_wrapper.write <<~BASH
+      #!/bin/bash
+      if [[ "$1" == "build" ]]; then
+        shift
+        exec "#{real_swift}" build --disable-sandbox "$@"
+      fi
+      exec "#{real_swift}" "$@"
+    BASH
+    swift_wrapper.chmod 0755
+    ENV.prepend_path "PATH", swift_bin
+
     system "cargo", "install", *std_cargo_args
     doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
   end
