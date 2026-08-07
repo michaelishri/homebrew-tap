@@ -11,14 +11,14 @@ class Cast < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  depends_on "rust" => :build
+  depends_on xcode: ["15.0", :build]
+  depends_on macos: :ventura
+
   resource "apple-metal" do
     url "https://static.crates.io/crates/apple-metal/apple-metal-0.8.8.crate"
     sha256 "4b1c24b280fad9eadf6f2bf560d826392020ac6258b4c88c6dd356ae7a24f4e3"
   end
-
-  depends_on "rust" => :build
-  depends_on xcode: ["15.0", :build]
-  depends_on macos: :ventura
 
   def install
     # apple-metal 0.8.8 references two macOS 26-only sampler properties
