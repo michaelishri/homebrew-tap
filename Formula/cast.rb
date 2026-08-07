@@ -21,9 +21,13 @@ class Cast < Formula
   end
 
   def install
-    # apple-metal 0.8.8 references two macOS 26-only sampler properties
-    # without an SDK compile guard. Cast does not use its sampler API.
+    # apple-metal 0.8.8 compiles optional bridge surfaces that require newer
+    # SDKs. Cast only receives frames through screencapturekit and uses none of
+    # its Advanced, MetalFX, or sampler APIs.
     resource("apple-metal").stage(buildpath/"vendor/apple-metal")
+    inreplace "vendor/apple-metal/swift-bridge/Package.swift",
+              'path: "Sources/AppleMetalBridge")',
+              'path: "Sources/AppleMetalBridge", exclude: ["Advanced.swift", "MetalFX.swift"])'
     apple_metal_state = "vendor/apple-metal/swift-bridge/Sources/AppleMetalBridge/State.swift"
     reduction_mode = "descriptor.reductionMode = " \
                      "MTLSamplerReductionMode(rawValue: reductionMode) ?? " \
