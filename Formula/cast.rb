@@ -11,11 +11,33 @@ class Cast < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  resource "apple-metal" do
+    url "https://static.crates.io/crates/apple-metal/apple-metal-0.8.8.crate"
+    sha256 "4b1c24b280fad9eadf6f2bf560d826392020ac6258b4c88c6dd356ae7a24f4e3"
+  end
+
   depends_on "rust" => :build
   depends_on xcode: ["15.0", :build]
   depends_on macos: :ventura
 
   def install
+    # apple-metal 0.8.8 references two macOS 26-only sampler properties
+    # without an SDK compile guard. Cast does not use its sampler API.
+    resource("apple-metal").stage(buildpath/"vendor/apple-metal")
+    inreplace "vendor/apple-metal/swift-bridge/Sources/AppleMetalBridge/State.swift", <<~SWIFT, ""
+      if #available(macOS 26.0, *) {
+          descriptor.reductionMode = MTLSamplerReductionMode(rawValue: reductionMode) ?? MTLSamplerReductionMode(rawValue: 0)!
+          descriptor.lodBias = lodBias
+      }
+    SWIFT
+    File.open("Cargo.toml", "a") do |file|
+      file.write <<~TOML
+
+        [patch.crates-io]
+        apple-metal = { path = "vendor/apple-metal" }
+      TOML
+    end
+
     # Cargo dependencies invoke SwiftPM from their build scripts. Disable its
     # nested sandbox because Homebrew already runs the entire build sandboxed.
     real_swift = Utils.safe_popen_read("xcrun", "--find", "swift").strip
