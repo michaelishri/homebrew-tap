@@ -1,21 +1,14 @@
 class Cast < Formula
   desc "Stream local video and a macOS desktop to Google Cast devices"
   homepage "https://github.com/michaelishri/cast-rs"
-  url "https://github.com/michaelishri/cast-rs/archive/refs/tags/v0.3.1.tar.gz"
-  sha256 "595b43c77c79577e8f6c311d99303182ab1b2282eae0612934a05f275aa41b34"
+  url "https://github.com/michaelishri/cast-rs/archive/refs/tags/v0.4.0.tar.gz"
+  sha256 "f679d05cd63d743d766a936e50426fb3b5b497eca9a0aedf01a5e55610767b62"
   license "MIT"
   head "https://github.com/michaelishri/cast-rs.git", branch: "main"
 
   livecheck do
     url :stable
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-  end
-
-  bottle do
-    root_url "https://github.com/michaelishri/homebrew-tap/releases/download/cast-0.3.1"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "7dbfb67695dec9ed6e940e9c53cf78077c61e223b3bb0241a33b728c76570b94"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "f21e163f0ba9a337f4b6fd8ed407f3d7256ec0dfbd2fb863efd499125cf5df51"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "011c43ec49ff9e87aa4115a9792af2c7fcdeebce410406dd41780246a778798e"
   end
 
   depends_on "rust" => :build
