@@ -61,6 +61,9 @@ class Cast < Formula
     ENV.prepend_path "PATH", swift_bin
 
     system "cargo", "install", *std_cargo_args
+    (bin/"cast").ensure_writable do
+      MachO::Tools.add_rpath((bin/"cast").to_s, Formula["ffmpeg"].opt_lib.to_s)
+    end
     doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
   end
 
