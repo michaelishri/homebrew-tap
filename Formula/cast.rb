@@ -62,7 +62,7 @@ class Cast < Formula
 
     system "cargo", "install", *std_cargo_args
     (bin/"cast").ensure_writable do
-      MachO::Tools.add_rpath((bin/"cast").to_s, Formula["ffmpeg"].opt_lib.to_s)
+      MachO::Tools.add_rpath((bin/"cast").to_s, formula_opt_lib("ffmpeg").to_s)
     end
     doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
   end
