@@ -61,10 +61,15 @@ class Cast < Formula
     ENV.prepend_path "PATH", swift_bin
 
     system "cargo", "install", *std_cargo_args
-    (bin/"cast").ensure_writable do
-      MachO::Tools.add_rpath((bin/"cast").to_s, formula_opt_lib("ffmpeg").to_s)
-    end
     doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
+  end
+
+  def post_install
+    binary = (bin/"cast").to_s
+    ffmpeg_rpath = formula_opt_lib("ffmpeg").to_s
+    (bin/"cast").ensure_writable do
+      MachO::Tools.add_rpath(binary, ffmpeg_rpath) unless MachO.open(binary).rpaths.include?(ffmpeg_rpath)
+    end
   end
 
   test do
@@ -72,6 +77,6 @@ class Cast < Formula
 
     (testpath/"invalid.mp4").write "not a media file"
     output = shell_output("#{bin}/cast video --host 127.0.0.1 #{testpath}/invalid.mp4 2>&1", 1)
-    assert_match "could not identify", output
+    assert_match(/could not inspect media container/i, output)
   end
 end
