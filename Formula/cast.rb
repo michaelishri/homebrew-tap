@@ -70,7 +70,7 @@ class Cast < Formula
         "/usr/lib/swift/libswift_Concurrency.dylib",
       )
     end
-    doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
+    doc.install "LICENSE", "README.md"
   end
 
   test do
