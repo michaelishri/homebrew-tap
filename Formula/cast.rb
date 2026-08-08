@@ -61,15 +61,10 @@ class Cast < Formula
     ENV.prepend_path "PATH", swift_bin
 
     system "cargo", "install", *std_cargo_args
-    doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
-  end
-
-  def post_install
-    binary = (bin/"cast").to_s
-    ffmpeg_rpath = formula_opt_lib("ffmpeg").to_s
     (bin/"cast").ensure_writable do
-      MachO::Tools.add_rpath(binary, ffmpeg_rpath) unless MachO.open(binary).rpaths.include?(ffmpeg_rpath)
+      MachO::Tools.add_rpath((bin/"cast").to_s, "/usr/lib/swift")
     end
+    doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
   end
 
   test do
