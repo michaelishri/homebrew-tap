@@ -1,0 +1,32 @@
+name: Public bottle smoke test
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Expected Cast version
+        required: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+jobs:
+  smoke-test:
+    runs-on: macos-15
+    env:
+      VERSION: ${{ inputs.version }}
+    steps:
+      - name: Update Homebrew
+        run: brew update
+
+      - name: Install the public bottle
+        run: |
+          brew tap michaelishri/tap
+          brew install --force-bottle michaelishri/tap/cast
+          test "$(cast --version | awk '{print $2}')" = "$VERSION"
+
+      - name: Run the formula test
+        run: brew test michaelishri/tap/cast
