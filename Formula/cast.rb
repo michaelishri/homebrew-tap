@@ -64,7 +64,11 @@ class Cast < Formula
 
     system "cargo", "install", *std_cargo_args
     (bin/"cast").ensure_writable do
-      MachO::Tools.add_rpath((bin/"cast").to_s, "/usr/lib/swift")
+      MachO::Tools.change_install_name(
+        (bin/"cast").to_s,
+        "@rpath/libswift_Concurrency.dylib",
+        "/usr/lib/swift/libswift_Concurrency.dylib",
+      )
     end
     doc.install "LICENSE", "README.md", "docs/USER_GUIDE.md"
   end
