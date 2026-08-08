@@ -11,6 +11,7 @@ class Cast < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  depends_on "ffmpeg"
   depends_on "rust" => :build
   depends_on xcode: ["15.0", :build]
   depends_on macos: :ventura
