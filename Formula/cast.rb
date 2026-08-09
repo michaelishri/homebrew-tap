@@ -13,6 +13,13 @@ class Cast < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  bottle do
+    root_url "https://github.com/michaelishri/homebrew-tap/releases/download/cast-0.9.0"
+    sha256 cellar: :any, arm64_tahoe:   "fe0b5d7a50cf48bfb4944e1bb0f7d3737e52ad0e17f30c9d94e2b9a4ff1c0930"
+    sha256 cellar: :any, arm64_sequoia: "48e1bc7ea1d157ee60e3a00be03a32488d15ed88bb6f01d7befec8e236e60d30"
+    sha256 cellar: :any, arm64_sonoma:  "00ebc9ff008c2c3f214abd36b9c76a28ef91125ad08b7a48006adc09613975c6"
+  end
+
   depends_on "rust" => :build
   depends_on xcode: ["15.0", :build]
   depends_on "ffmpeg"
