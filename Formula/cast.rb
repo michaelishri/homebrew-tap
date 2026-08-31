@@ -3,8 +3,8 @@ require "macho"
 class Cast < Formula
   desc "Stream local video and a macOS desktop to Google Cast devices"
   homepage "https://github.com/michaelishri/cast-rs"
-  url "https://github.com/michaelishri/cast-rs/archive/refs/tags/v0.9.1.tar.gz"
-  sha256 "1706b8a0bbecd81800b23d201a1b57d737bbec2f06f2299aa97d1b18c7447d64"
+  url "https://github.com/michaelishri/cast-rs/archive/refs/tags/v0.11.0.tar.gz"
+  sha256 "59ee1c10ec10a4a56c534e311aa9808022f18ea13ca119320cab50c8229ad39c"
   license "MIT"
   head "https://github.com/michaelishri/cast-rs.git", branch: "main"
 
