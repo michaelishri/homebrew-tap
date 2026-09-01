@@ -37,13 +37,9 @@ class Cast < Formula
                      "MTLSamplerReductionMode(rawValue: 0)!"
     inreplace apple_metal_state, reduction_mode, ""
     inreplace apple_metal_state, "descriptor.lodBias = lodBias", ""
-    File.open("Cargo.toml", "a") do |file|
-      file.write <<~TOML
-
-        [patch.crates-io]
-        apple-metal = { path = "vendor/apple-metal" }
-      TOML
-    end
+    inreplace "Cargo.toml",
+              "[patch.crates-io]\n",
+              "[patch.crates-io]\napple-metal = { path = \"vendor/apple-metal\" }\n"
 
     # Cargo dependencies invoke SwiftPM from their build scripts. Disable its
     # nested sandbox because Homebrew already runs the entire build sandboxed.
