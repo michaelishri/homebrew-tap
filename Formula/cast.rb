@@ -3,14 +3,21 @@ require "macho"
 class Cast < Formula
   desc "Stream local video and a macOS desktop to Google Cast devices"
   homepage "https://github.com/michaelishri/cast-rs"
-  url "https://github.com/michaelishri/cast-rs/archive/refs/tags/v0.12.0.tar.gz"
-  sha256 "cc1c3c873499b0813cfe2f5d56593e1e541d17e1e60ba21f102e0e1d36ecd0c7"
+  url "https://github.com/michaelishri/cast-rs/archive/refs/tags/v0.9.1.tar.gz"
+  sha256 "1706b8a0bbecd81800b23d201a1b57d737bbec2f06f2299aa97d1b18c7447d64"
   license "MIT"
   head "https://github.com/michaelishri/cast-rs.git", branch: "main"
 
   livecheck do
     url :stable
     regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
+
+  bottle do
+    root_url "https://github.com/michaelishri/homebrew-tap/releases/download/cast-0.9.1"
+    sha256 cellar: :any, arm64_tahoe:   "b6429d07cd6147dc32e15375dd73e0a77867bf8a17c90551f7e395686b8749dd"
+    sha256 cellar: :any, arm64_sequoia: "6fbb2dfcacc7e6dfef6be041ae93312b433e59eee77ef1c43873347da96ca5f7"
+    sha256 cellar: :any, arm64_sonoma:  "c659c8f568cfd7c25c31b080006065290e011c8df3d5b37caf00245dcec8f1ec"
   end
 
   depends_on "rust" => :build
@@ -37,9 +44,13 @@ class Cast < Formula
                      "MTLSamplerReductionMode(rawValue: 0)!"
     inreplace apple_metal_state, reduction_mode, ""
     inreplace apple_metal_state, "descriptor.lodBias = lodBias", ""
-    inreplace "Cargo.toml",
-              "[patch.crates-io]\n",
-              "[patch.crates-io]\napple-metal = { path = \"vendor/apple-metal\" }\n"
+    File.open("Cargo.toml", "a") do |file|
+      file.write <<~TOML
+
+        [patch.crates-io]
+        apple-metal = { path = "vendor/apple-metal" }
+      TOML
+    end
 
     # Cargo dependencies invoke SwiftPM from their build scripts. Disable its
     # nested sandbox because Homebrew already runs the entire build sandboxed.
