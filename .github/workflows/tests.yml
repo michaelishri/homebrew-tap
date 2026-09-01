@@ -56,6 +56,19 @@ jobs:
       - run: brew test-bot --only-formulae
         if: github.event_name == 'pull_request'
 
+      - name: Smoke-test the Cast desktop cask
+        if: github.event_name == 'pull_request' && runner.os == 'macOS'
+        env:
+          TAP_NAME: ${{ steps.set-up-homebrew.outputs.tap-name }}
+        run: |
+          appdir="$RUNNER_TEMP/cast-cask-apps"
+          brew fetch --cask "$TAP_NAME/cast-desktop"
+          brew install --cask --appdir="$appdir" "$TAP_NAME/cast-desktop"
+          test -x "$appdir/Cast.app/Contents/MacOS/Cast"
+          codesign --verify --deep --strict "$appdir/Cast.app"
+          plutil -lint "$appdir/Cast.app/Contents/Info.plist"
+          brew uninstall --cask "$TAP_NAME/cast-desktop"
+
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
