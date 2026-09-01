@@ -63,7 +63,7 @@ jobs:
         run: |
           appdir="$RUNNER_TEMP/cast-cask-apps"
           brew fetch --cask "$TAP_NAME/cast-desktop"
-          brew install --cask --no-quarantine --appdir="$appdir" "$TAP_NAME/cast-desktop"
+          brew install --cask --appdir="$appdir" "$TAP_NAME/cast-desktop"
           test -x "$appdir/Cast.app/Contents/MacOS/Cast"
           codesign --verify --deep --strict "$appdir/Cast.app"
           plutil -lint "$appdir/Cast.app/Contents/Info.plist"
