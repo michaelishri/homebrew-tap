@@ -34,3 +34,13 @@ cask "cast-desktop"
 
 Cast documentation and source code live at
 [michaelishri/cast-rs](https://github.com/michaelishri/cast-rs).
+
+## Install exmd
+
+```sh
+brew install michaelishri/tap/exmd
+```
+
+The formula supports macOS and Linux on ARM64 and x86-64. Run `exmd --help`
+to get started. See the [exmd repository](https://github.com/michaelishri/exmd)
+for usage and examples.
