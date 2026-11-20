@@ -4,27 +4,27 @@ class Exmd < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/michaelishri/exmd/releases/download/v0.2.0/exmd-darwin-arm64.tar.gz"
-      sha256 "b8678b2f2021175fb101865339530ae66e89a1740dde10b357a325750fa98e6e"
+      url "https://github.com/michaelishri/exmd/releases/download/v0.2.1/exmd-darwin-arm64.tar.gz"
+      sha256 "4ca29186f8f92435163af66e6cfeea9f3709ba2ca2aac16ebf9fcde3bd751de6"
     end
     on_intel do
-      url "https://github.com/michaelishri/exmd/releases/download/v0.2.0/exmd-darwin-amd64.tar.gz"
-      sha256 "a9917c135352b6a696d7ec2a20d2ef397b2d518c194ddbdd01c65df4f569c6d0"
+      url "https://github.com/michaelishri/exmd/releases/download/v0.2.1/exmd-darwin-amd64.tar.gz"
+      sha256 "d6e5862eef2a9f202888d8662cb359a14925069d36b38291375b6f66836afd50"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/michaelishri/exmd/releases/download/v0.2.0/exmd-linux-arm64.tar.gz"
-      sha256 "b0202ddfa7e9c9c4da43298fdbf87548a30eab88f2b2ebd89623e6d789d8d942"
+      url "https://github.com/michaelishri/exmd/releases/download/v0.2.1/exmd-linux-arm64.tar.gz"
+      sha256 "f1c453e2c82fa7d4cedcb7d83a33b47d4f5a08672995c0dc230804ba515535a8"
     end
     on_intel do
-      url "https://github.com/michaelishri/exmd/releases/download/v0.2.0/exmd-linux-amd64.tar.gz"
-      sha256 "5d1cfa5647ced8f6fd81ff4e29bed9c2281feec7be4c1ea4faaf6f8ffa08bcc7"
+      url "https://github.com/michaelishri/exmd/releases/download/v0.2.1/exmd-linux-amd64.tar.gz"
+      sha256 "ffc9426030236c907c7ed1fab33cf7ea4fd56224fe4fdc1fe2d61c7a277c6e11"
     end
   end
 
-  version "0.2.0"
+  version "0.2.1"
 
   def install
     bin.install "exmd"
