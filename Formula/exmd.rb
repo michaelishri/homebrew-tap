@@ -24,8 +24,6 @@ class Exmd < Formula
     end
   end
 
-  version "0.4.0"
-
   def install
     bin.install "exmd"
   end
